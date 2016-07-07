@@ -23,7 +23,6 @@ function handler (request, response) {
       var data = "";
 
       request.on("data", function(chunk) {
-
           data += chunk;
       });
 
