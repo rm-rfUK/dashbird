@@ -8,15 +8,16 @@
 
     <div class="entry-container">
         <h2>Write a Post</h2>
-        <form action="/add-post" method="POST">
-            <textarea name="blogpost" rows="8" cols="40"></textarea>
-            <button type="submit">Send</button>
+        <form>
+            <textarea id="blogpost" rows="8" cols="40"></textarea>
+            <button id="submit-button" type="submit">Send</button>
         </form>
     </div>
 
     <h2>Recent Posts</h2>
 
     <div class="post-container"></div>
+    <script src="request.js" charset="utf-8"></script>
 
   </body>
 </html>
