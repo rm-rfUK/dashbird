@@ -11,3 +11,6 @@ To practice building web apps with non-relational databases.
 * Hosted on Heroku
 * Secured against HTTP script injection using escaping
 * Using a redis database
+
+##Acknowledgements
+* Thanks to Node Girls and their excellent [CMS workshop](https://github.com/node-girls/workshop-cms) for providing the basis for our server
