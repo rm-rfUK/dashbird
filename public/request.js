@@ -9,8 +9,15 @@ function makePost(e) {
   const xhr = new XMLHttpRequest();
   const dateOfPost = new Date();
   const blogPostText = document.getElementById('blogpost').value;
-  const params = `date=${dateOfPost}&text=${blogPostText}`;
+  const hashTags = findHashTags(blogPostText);
+  const params = `date=${dateOfPost}&text=${blogPostText}&hashtags=${hashTags}`;
   xhr.open('POST', '/add-post', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.send(params);
+}
+
+function findHashTags(text) {
+  const regex = /\S*#(?:\[[^\]]+\]|\S+)/g;
+  const hashTagArray = text.match(regex);
+  return hashTagArray.join(',');
 }
