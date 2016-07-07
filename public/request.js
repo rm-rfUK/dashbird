@@ -1,5 +1,8 @@
-const button = document.getElementById('submit-button');
-button.addEventListener('click', makePost);
+addEventToElem('submit-button', 'click', makePost);
+
+function addEventToElem(elemId, event, cb) {
+  document.getElementById(elemId).addEventListener(event, cb);
+}
 
 function makePost(e) {
   e.preventDefault();
@@ -9,7 +12,5 @@ function makePost(e) {
   const params = `date=${dateOfPost}&text=${blogPostText}`;
   xhr.open('POST', '/add-post', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.setRequestHeader('Content-length', params.length);
-  xhr.setRequestHeader('Connection', 'close');
   xhr.send(params);
 }
