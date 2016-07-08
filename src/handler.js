@@ -1,9 +1,10 @@
-
 const fs = require('fs');
 const querystring = require('querystring');
+var redis = require('redis');
+var client = redis.createClient();
 
 function handler(request, response) {
-  let endpoint = request.url;
+  var endpoint = request.url;
 
   if (endpoint === '/') {
     var pathToIndex = __dirname + '/../public/index.html';
@@ -25,25 +26,37 @@ function handler(request, response) {
 
     request.on('end', function () {
       var newPost = querystring.parse(data);
-      console.log(newPost);
+      // console.log(newPost);
 
-      fs.readFile(__dirname + '/posts.json', 'utf8', function (error, fileData) {
-        if (error) {
-          console.log(error);
-        }
-        var blogposts = JSON.parse(fileData);
-        var currentTime = Date.now();
+      client.hmset('tweet1', {
+        'text': newPost.text,
+        'hashTags': newPost.hashtags
+      })
 
-        blogposts[currentTime] = newPost.blogpost;
-
-        fs.writeFile(__dirname + '/posts.json', JSON.stringify(blogposts, null, 4), function (error) {
-          if (error) {
-            console.log(error);
-          }
-          response.writeHead(302, { 'Location': '/' });
-          response.end();
-        });
+      client.hgetall('tweet1', function(error, reply){
+        if(error)console.log(error);
+        console.log(reply);
       });
+      
+
+
+      // fs.readFile(__dirname + '/posts.json', 'utf8', function (error, fileData) {
+      //   if (error) {
+      //     console.log(error);
+      //   }
+      //   var blogposts = JSON.parse(fileData);
+      //   var currentTime = Date.now();
+      //
+      //   blogposts[currentTime] = newPost.blogpost;
+      //
+      //   fs.writeFile(__dirname + '/posts.json', JSON.stringify(blogposts, null, 4), function (error) {
+      //     if (error) {
+      //       console.log(error);
+      //     }
+      //     response.writeHead(302, { 'Location': '/' });
+      //     response.end();
+      //   });
+      // });
     });
   } else if (endpoint === '/get-posts') {
     var pathToJSON = __dirname + '/posts.json';
