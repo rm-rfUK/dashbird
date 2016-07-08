@@ -26,7 +26,7 @@ function handler(request, response) {
 
     request.on('end', function () {
       var newPost = querystring.parse(data);
-      // console.log(newPost);
+      console.log('New Post:', newPost);
 
       client.hmset('tweet1', {
         'text': newPost.text,
@@ -37,7 +37,7 @@ function handler(request, response) {
         if(error)console.log(error);
         console.log(reply);
       });
-      
+
 
 
       // fs.readFile(__dirname + '/posts.json', 'utf8', function (error, fileData) {
