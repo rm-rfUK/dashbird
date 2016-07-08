@@ -36,28 +36,14 @@ describe('testing xhr post request', function () {
     jasmine.Ajax.uninstall();
   });
 
-  it('should return the status code of 200', function () {
-    const doneFn = jasmine.createSpy('success');
+  it('It should send data in the right format to the right endpoint', function () {
     let params = 'date=today&text=hello#friday&hashtags=#friday';
     let method = 'POST';
     let endpoint = '/add-post';
     let contentType = 'application/x-www-form-urlencoded';
-
-    makeXhrRequest(params, method, endpoint, contentType, doneFn());
-
+    makeXhrRequest(params, method, endpoint, contentType);
     expect(jasmine.Ajax.requests.mostRecent().url).toBe('/add-post');
     expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
-    expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({ date: [ 'today' ], text: [ 'hello#friday' ], hashtags: [ '#friday' ] });
-    // expect(jasmine.Ajax.requests.data()).toEqual({latLng: ['40.019461, -105.273296']});
-    //expect(jasmine.Ajax.requests.mostRecent().data).toBe('date=today&text=hello #friday&hashtags=#friday');
-    // expect(doneFn).not.toHaveBeenCalled();
-    //
-    // jasmine.Ajax.requests.mostRecent().response({
-    //   'status': 200,
-    //   'contentType': 'application/x-www-form-urlencoded',
-    //   'reponseText': 'awesome response',
-    // });
-    //
-    // expect(doneFn).toHaveBeenCalledWith('awesome response');
+    expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({ date: ['today'], text: ['hello#friday'], hashtags: ['#friday'] });
   });
 });
