@@ -28,12 +28,12 @@ function handler(request, response) {
       var newPost = querystring.parse(data);
       console.log('New Post:', newPost);
 
-      client.hmset('tweet1', {
+      client.hmset(newPost.date, {
         'text': newPost.text,
         'hashTags': newPost.hashtags
       })
 
-      client.hgetall('tweet1', function(error, reply){
+      client.hgetall(newPost.date, function(error, reply){
         if(error)console.log(error);
         console.log(reply);
       });
