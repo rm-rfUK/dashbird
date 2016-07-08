@@ -27,6 +27,13 @@ describe('findHashTags', function () {
   });
 });
 
+describe('makeQueryString', function () {
+  it('should make a query string from date, text and hashtags', function () {
+    let result = makeQueryString('today', 'hello#friday', '#friday');
+    expect(result).toEqual('date=today&text=hello#friday&hashtags=#friday');
+  });
+});
+
 describe('testing xhr post request', function () {
   beforeEach(function () {
     jasmine.Ajax.install();
