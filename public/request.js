@@ -1,19 +1,23 @@
-addEventToElem('submit-button', 'click', makePost);
+addEventToElem('submit-button', 'click', makePost(e, 'blogpost'));
 
 function addEventToElem(elemId, event, cb) {
   document.getElementById(elemId).addEventListener(event, cb);
 }
 
-function makePost(e) {
+function makePost(e, elemId) {
   e.preventDefault();
-  const xhr = new XMLHttpRequest();
   const dateOfPost = new Date();
-  const blogPostText = document.getElementById('blogpost').value;
-  document.getElementById('blogpost').value = null;
+  const blogPostText = getBlogAndResetTextArea(elemId);
   const hashTags = findHashTags(blogPostText);
-  xhr.open('POST', '/add-post', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.send(makeQueryString(dateOfPost, blogPostText, hashTags));
+  const params = makeQueryString(dateOfPost, blogPostText, hashTags);
+  makeXhrRequest(params, 'POST', '/add-post', 'application/x-www-form-urlencoded', cb);
+}
+
+function getBlogAndResetTextArea(elemId){
+  const elem = document.getElementById(elemId);
+  const blogPostText = elem.value;
+  elem.value = null;
+  return blogPostText;
 }
 
 function makeXhrRequest(params, method, endpoint, contentType, cb) {
@@ -28,7 +32,7 @@ function makeXhrRequest(params, method, endpoint, contentType, cb) {
   xhr.send(params);
 }
 
-function makeQueryString(date,text,hashtags) {
+function makeQueryString(date, text, hashtags) {
   return `date=${date}&text=${text}&hashtags=${hashtags}`;
 }
 
