@@ -19,7 +19,6 @@ function handler (request, response) {
           response.end();
       });
   } else if (endpoint === '/add-post') {
-
       var data = "";
 
       request.on("data", function(chunk) {
@@ -29,6 +28,7 @@ function handler (request, response) {
       request.on("end", function () {
 
           var newPost = querystring.parse(data);
+          console.log(newPost);
 
           fs.readFile(__dirname + "/posts.json", "utf8", function (error, fileData) {
 
