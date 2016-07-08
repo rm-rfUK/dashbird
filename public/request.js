@@ -7,7 +7,7 @@ function addEventToElem(elemId, event, cb) {
 function makePost(e) {
   e.preventDefault();
   const xhr = new XMLHttpRequest();
-  const dateOfPost = new Date();
+  const dateOfPost = Date.now();
   const blogPostText = document.getElementById('blogpost').value;
   document.getElementById('blogpost').value = null;
   const hashTags = findHashTags(blogPostText);
