@@ -11,10 +11,9 @@ function makePost(e) {
   const blogPostText = document.getElementById('blogpost').value;
   document.getElementById('blogpost').value = null;
   const hashTags = findHashTags(blogPostText);
-  const params = `date=${dateOfPost}&text=${blogPostText}&hashtags=${hashTags}`;
   xhr.open('POST', '/add-post', true);
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.send(params);
+  xhr.send(makeQueryString(dateOfPost, blogPostText, hashTags));
 }
 
 function makeXhrRequest(params, method, endpoint, contentType, cb) {
@@ -27,6 +26,10 @@ function makeXhrRequest(params, method, endpoint, contentType, cb) {
   xhr.open(method, endpoint, true);
   xhr.setRequestHeader('Content-Type', contentType);
   xhr.send(params);
+}
+
+function makeQueryString(date,text,hashtags) {
+  return `date=${date}&text=${text}&hashtags=${hashtags}`;
 }
 
 function findHashTags(text) {
