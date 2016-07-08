@@ -19,5 +19,5 @@ function makePost(e) {
 function findHashTags(text) {
   const regex = /\S*#(?:\[[^\]]+\]|\S+)/g;
   const hashTagArray = text.match(regex);
-  return hashTagArray.join(',');
+  return hashTagArray ? hashTagArray.join(',') : null;
 }
