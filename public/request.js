@@ -9,6 +9,7 @@ function makePost(e) {
   const xhr = new XMLHttpRequest();
   const dateOfPost = new Date();
   const blogPostText = document.getElementById('blogpost').value;
+  document.getElementById('blogpost').value = null;
   const hashTags = findHashTags(blogPostText);
   const params = `date=${dateOfPost}&text=${blogPostText}&hashtags=${hashTags}`;
   xhr.open('POST', '/add-post', true);
