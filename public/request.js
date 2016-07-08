@@ -17,6 +17,18 @@ function makePost(e) {
   xhr.send(params);
 }
 
+function makeXhrRequest(params, method, endpoint, contentType, cb) {
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystate = function () {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      cb(xhr.responseText);
+    }
+  };
+  xhr.open(method, endpoint, true);
+  xhr.setRequestHeader('Content-Type', contentType);
+  xhr.send(params);
+}
+
 function findHashTags(text) {
   const regex = /\S*#(?:\[[^\]]+\]|\S+)/g;
   const hashTagArray = text.match(regex);

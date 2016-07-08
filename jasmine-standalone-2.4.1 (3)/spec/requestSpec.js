@@ -37,6 +37,25 @@ describe('testing xhr post request', function () {
   });
 
   it('should return the status code of 200', function () {
+    const doneFn = jasmine.createSpy('success');
+    let params = 'date=today&text=hello #friday&hashtags=#friday';
+    let method = 'POST';
+    let endpoint = '/add-post';
+    let contentType = 'application/x-www-form-urlencoded';
 
+    makeXhrRequest(params, method, endpoint, contentType, function (data) {
+
+    });
+
+    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/add-post');
+    expect(doneFn).not.toHaveBeenCalled();
+
+    jasmine.Ajax.requests.mostRecent().response({
+      'status': 200,
+      'contentType': 'application/x-www-form-urlencoded',
+      'reponseText': 'awesome response',
+    });
+
+    expect(doneFn).toHaveBeenCalledWith('awesome response');
   });
 });
