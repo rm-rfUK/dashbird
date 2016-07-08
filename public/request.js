@@ -19,7 +19,7 @@ function makePost(e) {
 
 function makeXhrRequest(params, method, endpoint, contentType, cb) {
   const xhr = new XMLHttpRequest();
-  xhr.onreadystate = function () {
+  xhr.onreadystate = function onReadyStateChange() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       cb(xhr.responseText);
     }
