@@ -4,7 +4,6 @@ describe('testing environment', function () {
   });
 });
 
-
 describe('findHashTags', function () {
   it('should extract hashtags and return a string', function () {
     let result = findHashTags('#Friday');
