@@ -32,20 +32,21 @@ function handler(request, response) {
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
 
-client.set('tweetID', 1, function() {
-  client.incr('tweetID', function(err, reply) {
-    console.log('TweetID: ', reply);
-    client.get('tweetID', function(err, id){
+client.set('tweetID', 1, function settingTweetIDCounter() {
+  client.incr('tweetID', function incrementTweetID(err, reply) {
+    client.get('tweetID', function createTweetHashInRedis(err, id){
       if (err) throw err;
-      console.log('Id: ', id);
       client.hmset(id, {
           'date': newPost.date,
           'text': newPost.text,
           'hashTags': newPost.hashtags
         })
-        client.hgetall(id, function(error, reply){
+        client.hgetall(id, function getTweetHashFromRedis(error, reply){
           if(error)console.log(error);
           console.log(reply);
+          response.writeHead(200, { 'Content-Type': 'text/json' });
+          response.write(JSON.stringify(reply));
+          response.end();
         });
       });
     });
@@ -54,25 +55,6 @@ client.set('tweetID', 1, function() {
 
 
 
-
-      // fs.readFile(__dirname + '/posts.json', 'utf8', function (error, fileData) {
-      //   if (error) {
-      //     console.log(error);
-      //   }
-      //   var blogposts = JSON.parse(fileData);
-      //   var currentTime = Date.now();
-      //
-      //   blogposts[currentTime] = newPost.blogpost;
-      //
-      //   fs.writeFile(__dirname + '/posts.json', JSON.stringify(blogposts, null, 4), function (error) {
-      //     if (error) {
-      //       console.log(error);
-      //     }
-      //     response.writeHead(302, { 'Location': '/' });
-      //     response.end();
-      //   });
-      // });
-    // });
   } else if (endpoint === '/get-posts') {
     var pathToJSON = __dirname + '/posts.json';
 
@@ -99,7 +81,5 @@ client.set('tweetID', 1, function() {
     });
   }
 }
-
-// function
 
 module.exports = handler;
