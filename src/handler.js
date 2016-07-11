@@ -32,7 +32,7 @@ function handler(request, response) {
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
 
-client.set('tweetID', 1, function() {
+// client.set('tweetID', 1, function() {
   client.incr('tweetID', function(err, reply) {
     console.log('TweetID: ', reply);
     client.get('tweetID', function(err, id){
@@ -50,7 +50,7 @@ client.set('tweetID', 1, function() {
       });
     });
     });
-  });
+  // });
 
 
 
