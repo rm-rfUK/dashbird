@@ -2,6 +2,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 var redis = require('redis');
 var client = redis.createClient();
+// var makePost = require('./makePost');
 
 function handler(request, response) {
   var endpoint = request.url;
@@ -28,15 +29,29 @@ function handler(request, response) {
       var newPost = querystring.parse(data);
       console.log('New Post:', newPost);
 
-      client.hmset(newPost.date, {
-        'text': newPost.text,
-        'hashTags': newPost.hashtags
-      })
+//For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
-      client.hgetall(newPost.date, function(error, reply){
-        if(error)console.log(error);
-        console.log(reply);
+
+client.set('tweetID', 1, function() {
+  client.incr('tweetID', function(err, reply) {
+    console.log('TweetID: ', reply);
+    client.get('tweetID', function(err, id){
+      if (err) throw err;
+      console.log('Id: ', id);
+      client.hmset(id, {
+          'date': newPost.date,
+          'text': newPost.text,
+          'hashTags': newPost.hashtags
+        })
+        client.hgetall(id, function(error, reply){
+          if(error)console.log(error);
+          console.log(reply);
+        });
       });
+    });
+    });
+  });
+
 
 
 
@@ -57,7 +72,7 @@ function handler(request, response) {
       //     response.end();
       //   });
       // });
-    });
+    // });
   } else if (endpoint === '/get-posts') {
     var pathToJSON = __dirname + '/posts.json';
 
@@ -84,5 +99,7 @@ function handler(request, response) {
     });
   }
 }
+
+// function
 
 module.exports = handler;
