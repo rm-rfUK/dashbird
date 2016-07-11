@@ -38,29 +38,20 @@ client.set('tweetID', 1, function() {
     client.get('tweetID', function(err, id){
       if (err) throw err;
       console.log('Id: ', id);
-    })
+      client.hmset(id, {
+          'date': newPost.date,
+          'text': newPost.text,
+          'hashTags': newPost.hashtags
+        })
+        client.hgetall(id, function(error, reply){
+          if(error)console.log(error);
+          console.log(reply);
+        });
+      });
+    });
     });
   });
 
-
-client.hmset(10, {
-  'date': newPost.date,
-  'text': newPost.text,
-  'hashTags': newPost.hashtags
-})
-
-
-// }
-    //  var newestPost = client.lrange('tweet_ID', -1 ,-1, function(error, reply) {
-    //    if(error)console.log(error);
-    //    console.log('tweetID:', reply[0]);
-    //    return reply[0];
-    //  });
-
-client.hgetall(10, function(error, reply){
-  if(error)console.log(error);
-  console.log(reply);
-});
 
 
 
@@ -81,7 +72,7 @@ client.hgetall(10, function(error, reply){
       //     response.end();
       //   });
       // });
-    });
+    // });
   } else if (endpoint === '/get-posts') {
     var pathToJSON = __dirname + '/posts.json';
 
