@@ -2,6 +2,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 var redis = require('redis');
 var client = redis.createClient();
+// var makePost = require('./makePost');
 
 function handler(request, response) {
   var endpoint = request.url;
@@ -30,27 +31,36 @@ function handler(request, response) {
 
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
-      var tweetID = 1;
 
-      function makePost(tweetID) {
-        tweetID += 1;
-        client.hmset(tweetID, {
-        'date': newPost.date,
-        'text': newPost.text,
-        'hashTags': newPost.hashtags
-      })
-     }
+client.set('tweetID', 1, function() {
+  client.incr('tweetID', function(err, reply) {
+    console.log('TweetID: ', reply);
+    client.get('tweetID', function(err, id){
+      if (err) throw err;
+      console.log('Id: ', id);
+    })
+    });
+  });
 
+
+client.hmset(10, {
+  'date': newPost.date,
+  'text': newPost.text,
+  'hashTags': newPost.hashtags
+})
+
+
+// }
     //  var newestPost = client.lrange('tweet_ID', -1 ,-1, function(error, reply) {
     //    if(error)console.log(error);
     //    console.log('tweetID:', reply[0]);
     //    return reply[0];
     //  });
 
-      client.hgetall(tweetID, function(error, reply){
-        if(error)console.log(error);
-        console.log(reply);
-      });
+client.hgetall(10, function(error, reply){
+  if(error)console.log(error);
+  console.log(reply);
+});
 
 
 
