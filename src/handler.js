@@ -28,12 +28,26 @@ function handler(request, response) {
       var newPost = querystring.parse(data);
       console.log('New Post:', newPost);
 
-      client.hmset(newPost.date, {
+//For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
+
+      var tweetID = 1;
+
+      function makePost(tweetID) {
+        tweetID += 1;
+        client.hmset(tweetID, {
+        'date': newPost.date,
         'text': newPost.text,
         'hashTags': newPost.hashtags
       })
+     }
 
-      client.hgetall(newPost.date, function(error, reply){
+    //  var newestPost = client.lrange('tweet_ID', -1 ,-1, function(error, reply) {
+    //    if(error)console.log(error);
+    //    console.log('tweetID:', reply[0]);
+    //    return reply[0];
+    //  });
+
+      client.hgetall(tweetID, function(error, reply){
         if(error)console.log(error);
         console.log(reply);
       });
@@ -84,5 +98,7 @@ function handler(request, response) {
     });
   }
 }
+
+// function
 
 module.exports = handler;
