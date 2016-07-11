@@ -34,10 +34,8 @@ function handler(request, response) {
 
 client.set('tweetID', 1, function settingTweetIDCounter() {
   client.incr('tweetID', function incrementTweetID(err, reply) {
-    console.log('TweetID: ', reply);
     client.get('tweetID', function createTweetHashInRedis(err, id){
       if (err) throw err;
-      console.log('Id: ', id);
       client.hmset(id, {
           'date': newPost.date,
           'text': newPost.text,
@@ -46,11 +44,16 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
         client.hgetall(id, function getTweetHashFromRedis(error, reply){
           if(error)console.log(error);
           console.log(reply);
+          response.writeHead(200, { 'Content-Type': 'text/json' });
+          response.write(JSON.stringify(reply));
+          response.end();
         });
       });
     });
     });
   });
+
+
 
   } else if (endpoint === '/get-posts') {
     var pathToJSON = __dirname + '/posts.json';
@@ -78,7 +81,5 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
     });
   }
 }
-
-// function
 
 module.exports = handler;
