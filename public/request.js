@@ -11,7 +11,7 @@ function makePost(e) {
   document.getElementById('blogpost').value = null;
   const hashTags = findHashTags(blogPostText);
   const queryString = makeQueryString(dateOfPost, blogPostText, hashTags);
-  makeXhrRequest(queryString, 'POST', '/add-post', 'application/x-www-form-urlencoded', createContent)
+  makeXhrRequest(queryString, 'POST', '/add-post', 'application/x-www-form-urlencoded', createPostsOnDashboard)
 }
 
 function makeXhrRequest(params, method, endpoint, contentType, cb) {
