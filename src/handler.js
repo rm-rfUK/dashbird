@@ -27,7 +27,7 @@ function handler(request, response) {
 
     request.on('end', function () {
       var newPost = querystring.parse(data);
-      console.log('New Post:', newPost);
+      // console.log('New Post:', newPost);
 
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
@@ -43,7 +43,7 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
         })
         client.hgetall(id, function getTweetHashFromRedis(error, reply){
           if(error)console.log(error);
-          console.log(reply);
+          // console.log(reply);
           response.writeHead(200, { 'Content-Type': 'text/json' });
           response.write(JSON.stringify(reply));
           response.end();
