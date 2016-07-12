@@ -6,22 +6,20 @@ function addEventToElem(elemId, event, cb) {
 
 function makePost(e) {
   e.preventDefault();
-  const xhr = new XMLHttpRequest();
   const dateOfPost = Date.now();
   const blogPostText = document.getElementById('blogpost').value;
   document.getElementById('blogpost').value = null;
   const hashTags = findHashTags(blogPostText);
-  xhr.open('POST', '/add-post', true);
-  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-  xhr.send(makeQueryString(dateOfPost, blogPostText, hashTags));
+  const queryString = makeQueryString(dateOfPost, blogPostText, hashTags);
+  makeXhrRequest(queryString, 'POST', '/add-post', 'application/x-www-form-urlencoded', displayTweet)
 }
 
 function makeXhrRequest(params, method, endpoint, contentType, cb) {
   const xhr = new XMLHttpRequest();
-  xhr.onreadystate = function onReadyStateChange() {
+  xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       console.log('hello');
-      console.log(xhr.responseText);
+      console.log(JSON.parse(xhr.responseText));
       cb(JSON.parse(xhr.responseText));
     }
   };
