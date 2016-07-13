@@ -1,0 +1,16 @@
+textarea {
+  padding: 0.5em;
+}
+
+.entry-container {
+  margin: auto auto;
+  text-align: center;
+}
+
+button {
+  margin-left: 20em;
+}
+
+h2, h1, #post-container {
+  text-align: center;
+}
