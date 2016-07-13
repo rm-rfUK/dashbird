@@ -1,7 +1,7 @@
 const fs = require('fs');
 const querystring = require('querystring');
-var redis = require('redis');
-var client = redis.createClient();
+// var redis = require('redis');
+// var client = redis.createClient();
 // var makePost = require('./makePost');
 
 function handler(request, response) {
@@ -31,27 +31,26 @@ function handler(request, response) {
 
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
 
-
-client.set('tweetID', 1, function settingTweetIDCounter() {
-  client.incr('tweetID', function incrementTweetID(err, reply) {
-    client.get('tweetID', function createTweetHashInRedis(err, id){
-      if (err) throw err;
-      client.hmset(id, {
-          'date': newPost.date,
-          'text': newPost.text,
-          'hashTags': newPost.hashtags
-        })
-        client.hgetall(id, function getTweetHashFromRedis(error, reply){
-          if(error)console.log(error);
-          // console.log(reply);
-          response.writeHead(200, { 'Content-Type': 'text/json' });
-          response.write(JSON.stringify(reply));
-          response.end();
-        });
-      });
-    });
-    });
-  });
+// client.set('tweetID', 1, function settingTweetIDCounter() {
+//   client.incr('tweetID', function incrementTweetID(err, reply) {
+//     client.get('tweetID', function createTweetHashInRedis(err, id){
+//       if (err) throw err;
+//       client.hmset(id, {
+//           'date': newPost.date,
+//           'text': newPost.text,
+//           'hashTags': newPost.hashtags
+//         })
+//         client.hgetall(id, function getTweetHashFromRedis(error, reply){
+//           if(error)console.log(error);
+//           // console.log(reply);
+//           response.writeHead(200, { 'Content-Type': 'text/json' });
+//           response.write(JSON.stringify(reply));
+//           response.end();
+//         });
+//       });
+//     });
+//     });
+//   });
 
 
 
