@@ -16,12 +16,25 @@ textarea, .post {
 }
 
 button {
-  margin-top: 1em;
-  margin-left: 23em;
   border: none;
   padding: 0.5em 1em;
   font-size: 1em;
   cursor: pointer;
+}
+
+#submit-button {
+  margin-left: 23em;
+  margin-top: 1em;
+}
+
+#search-button {
+  position: absolute;
+  margin: 0.5em;
+}
+
+.search-container {
+  position: relative;
+  margin-left: 70%;
 }
 
 h2, h1, #post-container {
