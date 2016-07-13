@@ -1,5 +1,13 @@
-textarea {
-  padding: 0.5em;
+html {
+  font-family: sans-serif;
+}
+
+textarea, #post-container {
+  padding: 1em;
+  background-color: #f2f1f0;
+  border: none;
+  box-sizing: border-box;
+  font-size: 1em;
 }
 
 .entry-container {
@@ -13,6 +21,12 @@ button {
 
 h2, h1, #post-container {
   text-align: center;
+}
+
+#post-container {
+  width: 30em;
+  height: 5em;
+  margin: auto auto;
 }
 
 img {
