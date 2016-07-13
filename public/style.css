@@ -28,13 +28,15 @@ button {
 }
 
 #search-button {
-  position: absolute;
-  margin: 0.5em;
+  margin-left: 0.5em;
+  margin-top: 0.4em;
+  height: 2.2em;
 }
 
 .search-container {
-  position: relative;
-  margin-left: 70%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2em;
 }
 
 h2, h1, #post-container {
