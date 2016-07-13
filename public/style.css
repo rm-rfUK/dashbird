@@ -14,3 +14,12 @@ button {
 h2, h1, #post-container {
   text-align: center;
 }
+
+img {
+  width: 10em;
+}
+
+#img {
+  text-align: center;
+  margin: 0 auto -1em auto;
+}
