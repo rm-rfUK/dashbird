@@ -4,6 +4,8 @@ Twitter dashboard
 ## What?
 A dashboard allowing a user to send a tweet, see all tweets sent and filter by search terms.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 ## Why?
 To practice building web apps with non-relational databases.
 
@@ -11,7 +13,7 @@ To practice building web apps with non-relational databases.
 * Using a redis database
 
 # Stretch Goals
-* Hosted on Heroku
+* ~~Hosted on Heroku~~
 * Secured against HTTP script injection using escaping
 
 ##Acknowledgements
