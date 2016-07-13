@@ -3,18 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>dashbird</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
+    <div id="img">
+      <img src="img/bird.jpg" alt="">
+    </div>
+    <h1>dashbird</h1>
 
     <div class="entry-container">
-        <h2>Write a Post</h2>
         <form>
-            <textarea id="blogpost" rows="8" cols="40"></textarea>
+            <textarea id="blogpost" placeholder="What's up?" rows="4" cols="50"></textarea>
+            <br>
             <button id="submit-button" type="submit">Send</button>
         </form>
     </div>
 
-    <h2>Latest Post</h2>
+    <h2>Latest Posts</h2>
 
     <div id="post-container"></div>
     <script src="makeXhrRequest.js" charset="utf-8"></script>
