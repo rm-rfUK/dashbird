@@ -53,3 +53,23 @@ describe('testing xhr post request', function () {
     expect(jasmine.Ajax.requests.mostRecent().data()).toEqual({ date: ['today'], text: ['hello#friday'], hashtags: ['#friday'] });
   });
 });
+
+describe('testing xhr get request', function () {
+  beforeEach(function () {
+    jasmine.Ajax.install();
+  });
+
+  afterEach(function () {
+    jasmine.Ajax.uninstall();
+  });
+
+  it('It should send get requests in the right format to the right endpoint', function () {
+    let params = '';
+    let method = 'GET';
+    let endpoint = '/get-posts';
+    let contentType = 'text/json';
+    makeXhrRequest(params, method, endpoint, contentType);
+    expect(jasmine.Ajax.requests.mostRecent().url).toBe('/get-posts');
+    expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
+  });
+});
