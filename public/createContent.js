@@ -1,8 +1,8 @@
 var globalArray = [];
 
-function createPostsOnDashboard(newPost) {
+function createPostsOnDashboard(postArrayOrObject) {
   removeElementsByClass("post");
-  globalArray.push(newPost);
+  globalArray.push(postArrayOrObject);
   globalArray.forEach(function(element, index) {
     createPostDiv(element.date, element.text);
   });
@@ -30,6 +30,3 @@ function removeElementsByClass(className){
 }
 //Onload go to the database and get back the last ten posts
 //Put them into an array of objects
-
-//When a post is made, add to the array
-//Loop through the array and call createNode() for each element in the array

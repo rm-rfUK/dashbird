@@ -56,16 +56,21 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
 
 
   } else if (endpoint === '/get-posts') {
-    var pathToJSON = __dirname + '/posts.json';
-
-    fs.readFile(pathToJSON, function (error, blogposts) {
-      if (error) {
-        throw error;
+    // var pathToJSON = __dirname + '/posts.json';
+    //
+    // fs.readFile(pathToJSON, function (error, blogposts) {
+    //   if (error) {
+    //     throw error;
+    //   }
+      var fakePost = {
+        date: 'The date',
+        text: 'sadfjkasdhfkjasd',
+        hashTags: 'sdrhfkjafds'
       }
       response.writeHead(200, { 'Content-Type': 'text/json' });
-      response.write(blogposts);
+      response.write(JSON.stringify(fakePost));
       response.end();
-    });
+    // });
   } else {
     var pathToFile = __dirname + '/../public' + endpoint;
     var fileExtensionArray = endpoint.split('.');
