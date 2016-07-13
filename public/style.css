@@ -2,7 +2,7 @@ html {
   font-family: sans-serif;
 }
 
-textarea, #post-container {
+textarea, .post {
   padding: 1em;
   background-color: #f2f1f0;
   border: none;
@@ -16,16 +16,24 @@ textarea, #post-container {
 }
 
 button {
-  margin-left: 20em;
+  margin-top: 1em;
+  margin-left: 23em;
+  border: none;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  cursor: pointer;
 }
 
 h2, h1, #post-container {
   text-align: center;
 }
 
+.post {
+  margin: 1em;
+}
+
 #post-container {
-  width: 30em;
-  height: 5em;
+  width: 35em;
   margin: auto auto;
 }
 
