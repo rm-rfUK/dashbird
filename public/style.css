@@ -16,12 +16,27 @@ textarea, .post {
 }
 
 button {
-  margin-top: 1em;
-  margin-left: 23em;
   border: none;
   padding: 0.5em 1em;
   font-size: 1em;
   cursor: pointer;
+}
+
+#submit-button {
+  margin-left: 23em;
+  margin-top: 1em;
+}
+
+#search-button {
+  margin-left: 0.5em;
+  margin-top: 0.4em;
+  height: 2.2em;
+}
+
+.search-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 2em;
 }
 
 h2, h1, #post-container {
