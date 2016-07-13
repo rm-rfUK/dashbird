@@ -56,16 +56,25 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
 
 
   } else if (endpoint === '/get-posts') {
-    var pathToJSON = __dirname + '/posts.json';
-
-    fs.readFile(pathToJSON, function (error, blogposts) {
-      if (error) {
-        throw error;
-      }
+    // var pathToJSON = __dirname + '/posts.json';
+    //
+    // fs.readFile(pathToJSON, function (error, blogposts) {
+    //   if (error) {
+    //     throw error;
+    //   }
+      var fakePosts = [{
+        date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
+        text: 'I hope we can get our app working by #Friday',
+        hashTags: '#Friday'
+      },{
+        date: 'Wed Jul 13 2016 08:55:03 GMT 0100 (BST)',
+        text: 'Do a coding bootcamp they said. It will be easy they said...',
+        hashTags: ''
+      }];
       response.writeHead(200, { 'Content-Type': 'text/json' });
-      response.write(blogposts);
+      response.write(JSON.stringify(fakePosts));
       response.end();
-    });
+    // });
   } else {
     var pathToFile = __dirname + '/../public' + endpoint;
     var fileExtensionArray = endpoint.split('.');
