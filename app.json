@@ -1,0 +1,8 @@
+{
+  "name": "Dashbird",
+  "description": "A twitter clone project from week 6 of FAC",
+  "repository": "https://github.com/rm-rfUK/dashbird.git",
+  "logo": "https://i.ytimg.com/vi/HphzDGU3Hxo/hqdefault.jpg",
+  "keywords": ["node","postgres"],
+  "image": "heroku/nodejs"
+}
