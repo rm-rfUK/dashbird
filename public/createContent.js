@@ -2,9 +2,12 @@ var globalArray = [];
 
 function createPostsOnDashboard(postArrayOrObject) {
   removeElementsByClass("post");
-  globalArray.push(postArrayOrObject);
-  globalArray.forEach(function(element, index) {
-    createPostDiv(element.date, element.text);
+  var postArray = postArrayOrObject[0] ? postArrayOrObject : [postArrayOrObject];
+  postArray.forEach(function(post) {
+    globalArray.push(post);
+  });
+  globalArray.forEach(function(post) {
+    createPostDiv(post.date, post.text);
   });
 }
 
@@ -28,5 +31,3 @@ function removeElementsByClass(className){
     elements[0].parentNode.removeChild(elements[0]);
   }
 }
-//Onload go to the database and get back the last ten posts
-//Put them into an array of objects

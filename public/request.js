@@ -15,7 +15,6 @@ function getPostsFromDatabase() {
   makeXhrRequest('', 'GET', '/get-posts', 'text/json', createPostsOnDashboard)
 }
 
-
 function makeQueryString(date,text,hashtags) {
   return `date=${date}&text=${text}&hashtags=${hashtags}`;
 }

@@ -62,13 +62,17 @@ client.set('tweetID', 1, function settingTweetIDCounter() {
     //   if (error) {
     //     throw error;
     //   }
-      var fakePost = {
-        date: 'The date',
-        text: 'sadfjkasdhfkjasd',
-        hashTags: 'sdrhfkjafds'
-      }
+      var fakePosts = [{
+        date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
+        text: 'I hope we can get our app working by #Friday',
+        hashTags: '#Friday'
+      },{
+        date: 'Wed Jul 13 2016 08:55:03 GMT 0100 (BST)',
+        text: 'Do a coding bootcamp they said. It will be easy they said...',
+        hashTags: ''
+      }];
       response.writeHead(200, { 'Content-Type': 'text/json' });
-      response.write(JSON.stringify(fakePost));
+      response.write(JSON.stringify(fakePosts));
       response.end();
     // });
   } else {
