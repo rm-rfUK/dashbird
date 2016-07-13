@@ -25,8 +25,8 @@ function handler(request, response) {
       data += chunk;
     });
 
-    request.on('end', function () {
-      var newPost = querystring.parse(data);
+    // request.on('end', function () {
+    //   var newPost = querystring.parse(data);
       // console.log('New Post:', newPost);
 
 //For each new post we need to increment tweetID.  Then create the newHash with the newest tweetID.
