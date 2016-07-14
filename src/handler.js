@@ -1,9 +1,8 @@
 const fs = require('fs');
 const querystring = require('querystring');
-// const makePost = require('./database.js')
 // var redis = require('redis');
 // var client = redis.createClient();
-var makePost = require('./makePost');
+const makePost = require('./makePost');
 
 function handler(request, response) {
   var endpoint = request.url;
