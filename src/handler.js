@@ -29,7 +29,6 @@ function handler(request, response) {
     request.on('end', function () {
       var newPost = querystring.parse(data);
       makePost(newPost, sendResponse);
-
       function sendResponse(error, reply) {
         if(error)console.log(error);
         response.writeHead(200, { 'Content-Type': 'text/json' });

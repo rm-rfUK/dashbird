@@ -17,19 +17,10 @@ function makePost(post, callback) {
     [date, time, text, hashTags, username],
       function(err, result) {
         if (err) console.log(err);
-        callback(result);
-        // console.log('post inserted with postid: ' + result.rows[0].postid);
+        // callback(result);
+        console.log('post inserted with postid: ' + result.rows[0].postid);
         client.end();
       });
 }
-
-// var fakePost = {
-//   date: 'Wed Jul 13 2016 08:55:03 GMT 0100',
-//   text: 'Made the thing #work',
-//   hashTags: '#work',
-//   username: 'Rory'
-// }
-//
-// makePost(fakePost)
 
 module.exports = makePost;
