@@ -17,7 +17,7 @@ function makePost(post, callback) {
     [date, time, text, hashTags, username],
       function(err, result) {
         if (err) console.log(err);
-        // callback(result);
+        callback(result);
         console.log('post inserted with postid: ' + result.rows[0].postid);
         client.end();
       });
