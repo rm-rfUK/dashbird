@@ -18,4 +18,21 @@ function getPostById(id, callback) {
       });
 }
 
-module.exports = getPostById;
+function getPostByHashtag(hashtag, callback) {
+  var client = new pg.Client(connectionString);
+  client.connect((err) => {
+    if (err) throw err;
+  });
+  client.query("SELECT * FROM posts WHERE hashtags LIKE $1",
+    ['%' + hashtag + '%'],
+      function(err, result) {
+        if (err) console.log(err);
+        callback(result.rows);
+        client.end();
+      });
+}
+
+module.exports = {
+    getPostById : getPostById,
+    getPostByHashtag : getPostByHashtag
+  }
