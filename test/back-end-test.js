@@ -1,7 +1,7 @@
 const tape = require('tape');
 const shot = require('shot');
 const handler = require('../src/handler.js');
-const makePost = require('../src/database.js');
+const makePost = require('../src/makePost.js');
 const getPostById = require('../src/getPost.js');
 
 tape('tests for / endpoint', t => {
