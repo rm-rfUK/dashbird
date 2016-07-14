@@ -4,7 +4,7 @@ require('env2')('config.env');
 //this connection string will be hidden as environment variables
 var connectionString = process.env.DATABASE_URL;
 
-function makePost(post) {
+function makePost(post, callback) {
   var client = new pg.Client(connectionString);
   client.connect((err) => {
     if (err) throw err;
@@ -18,16 +18,10 @@ function makePost(post) {
     [date, time, text, hashTags, username],
       function(err, result) {
         if (err) console.log(err);
+        callback(result);
         console.log('post inserted with postid: ' + result.rows[0].postid);
         client.end();
       });
 }
 
-var fakePost = {
-  date: 'Wed Jul 13 2016 08:55:03 GMT 0100',
-  text: 'Made the thing #work',
-  hashTags: '#work',
-  username: 'Rory'
-}
-
-makePost(fakePost)
+module.exports = makePost;
