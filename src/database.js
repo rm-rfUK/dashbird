@@ -12,10 +12,10 @@ function makePost(post, callback) {
   var date = post.date.slice(0, -18);
   var time = post.date.slice(16, 25);
   var text = post.text;
-  var hashTags = post.hashTags;
+  var hashtags = post.hashtags;
   var username = post.userName;
   client.query("INSERT INTO posts(date, time, text, hashtags, username) values($1, $2, $3, $4, $5) RETURNING postid",
-    [date, time, text, hashTags, username],
+    [date, time, text, hashtags, username],
       function(err, result) {
         if (err) console.log(err);
         callback(result);
