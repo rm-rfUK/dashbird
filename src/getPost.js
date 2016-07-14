@@ -1,7 +1,6 @@
 var pg = require('pg');
 pg.defaults.ssl = true;
 require('env2')('config.env');
-//this connection string will be hidden as environment variables
 var connectionString = process.env.DATABASE_URL;
 
 function getPostById(id, callback) {

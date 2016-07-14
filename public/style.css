@@ -60,3 +60,7 @@ img {
   text-align: center;
   margin: 0 auto -1em auto;
 }
+
+.hidden {
+  display: none;
+}
