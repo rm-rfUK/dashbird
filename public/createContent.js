@@ -1,5 +1,7 @@
 var globalArray = [];
 
+var globalUser = 'unknown';
+
 function createPostsOnDashboard(postArrayOrObject) {
   removeElementsByClass("post");
   var postArray = postArrayOrObject[0] ? postArrayOrObject : [postArrayOrObject];

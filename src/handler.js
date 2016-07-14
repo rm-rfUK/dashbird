@@ -1,8 +1,7 @@
 const fs = require('fs');
 const querystring = require('querystring');
-// var redis = require('redis');
-// var client = redis.createClient();
-const makePost = require('./makePost');
+const makePost = require('./makePost.js');
+const createUserRecord = require('./createUserRecord.js')
 
 function handler(request, response) {
   var endpoint = request.url;
@@ -18,6 +17,25 @@ function handler(request, response) {
       response.write(file);
       response.end();
     });
+  } else if (endpoint === '/add-user-record') {
+    var data = '';
+
+    request.on('data', function (chunk) {
+      data += chunk;
+    });
+
+    request.on('end', function () {
+      var newRecord = querystring.parse(data);
+      createUserRecord(newRecord, sendUserSuccessResponse);
+      function sendUserSuccessResponse(reply) {
+        if (reply) {
+          response.writeHead(200, { 'Content-Type': 'text/json' });
+          response.write(JSON.stringify(reply));
+          response.end();
+        }
+      }
+    });
+
   } else if (endpoint === '/add-post') {
     var data = '';
 
@@ -27,9 +45,8 @@ function handler(request, response) {
 
     request.on('end', function () {
       var newPost = querystring.parse(data);
-      console.log(newPost);
-      makePost(newPost, sendResponse);
-      function sendResponse(reply) {
+      makePost(newPost, sendPostSuccessResponse);
+      function sendPostSuccessResponse(reply) {
         if (reply) {
           response.writeHead(200, { 'Content-Type': 'text/json' });
           response.write(JSON.stringify(newPost));
