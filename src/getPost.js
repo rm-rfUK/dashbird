@@ -37,7 +37,7 @@ function getPostBySearchTerm(searchTerm, callback) {
   client.connect((err) => {
     if (err) throw err;
   });
-  client.query("SELECT * FROM posts WHERE hashtags LIKE $1 OR name LIKE $1 OR lastname LIKE $1",
+  client.query("SELECT * FROM posts WHERE hashtags LIKE $1 OR name LIKE $1 OR lastname LIKE $1 ORDER BY posts.date DESC",
     ['%' + hashtag + '%'],
       function(err, result) {
         if (err) console.log(err);
