@@ -1,7 +1,8 @@
 const tape = require('tape');
 const shot = require('shot');
 const handler = require('../src/handler.js');
-const fakeredis = require('fakeredis');
+const makePost = require('../src/makePost.js');
+const getPostById = require('../src/getPost.js');
 
 tape('tests for / endpoint', t => {
   shot.inject(handler, { method: 'get', url: '/' }, (res) => {
@@ -12,31 +13,33 @@ tape('tests for / endpoint', t => {
   });
 });
 
-// tape('tests for /add-post endpoint', t => {
-//   shot.inject(handler, { method: 'post', payload: 'asdflksdfkjhsdfk', url: '/add-post' }, (res) => {
-//     t.equal(res.statusCode, 302, '/add-post has status code of 302');
-//     t.end();
-//   });
-// });
+tape('Test post function', t => {
+  let postIdToTest = null;
 
-// tape('Test post function', t => {
-//   const fakeClient = fakeredis.createClient();
-//   const fakePost = {
-//     'date': '12347589',
-//     'text': 'this is the fake text that we are using to #test',
-//     'hashTags': '#test'
-//   }
-//   fakeClient.set('tweetID', 1);
-//   makePost(fakeClient,fakePost, function(response){return response});
-//
-//   //   // t.deepEqual(
-//   //     // getPost(fakeClient, 1, function(response){return response})//,
-//   //     // { 'date': '12347589',
-//   //     //   'text': 'this is the fake text that we are using to #test',
-//   //     //   'hashTags': '#test' },
-//   //     // 'client should set and get data');
-//   t.end();
-// });
+  const fakePost = {
+    date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
+    text: 'I hope we can get our app working by #Friday',
+    hashtags: '#Friday'
+  }
+
+  makePost(fakePost, setPostIdToTest);
+
+  function setPostIdToTest (postid) {
+    postIdToTest = postid;
+    getPostById(postIdToTest, function(post){
+      t.deepEqual(post,
+        { date: new Date('Wed Jul 13 2016'),
+          hashtags: '#Friday',
+          postid: postIdToTest,
+          text: 'I hope we can get our app working by #Friday',
+          time: '08:54:44',
+          username: null },
+      'makePost should send a post to the database');
+      t.end();
+    });
+  }
+});
+
 //
 // function makePost(client, post, cb){
 //   client.get('tweetID', function(err, id) {
@@ -57,24 +60,3 @@ tape('tests for / endpoint', t => {
 //     return cb(reply)
 //   });
 // }
-
-// client.set('tweetID', 1, function settingTweetIDCounter() {
-//   client.incr('tweetID', function incrementTweetID(err, reply) {
-//     client.get('tweetID', function createTweetHashInRedis(err, id){
-//       if (err) throw err;
-//       client.hmset(id, {
-//           'date': newPost.date,
-//           'text': newPost.text,
-//           'hashTags': newPost.hashtags
-//         })
-        // client.hgetall(id, function getTweetHashFromRedis(error, reply){
-        //   if(error)console.log(error);
-        //   console.log(reply);
-        //   response.writeHead(200, { 'Content-Type': 'text/json' });
-        //   response.write(JSON.stringify(reply));
-        //   response.end();
-        // });
-//       });
-//     });
-//   });
-// });
