@@ -1,5 +1,6 @@
 addEventToElem('submit-button', 'click', makePost);
 addEventToElem('sign-in-button', 'click', recordUserDetails);
+addEventToElem('search-button', 'click', getPostsFromDatabase);
 addEventToWindow('load', getPostsFromDatabase);
 
 function makePost(e) {
@@ -31,8 +32,12 @@ function hideSignIn(username) {
   document.getElementById('heading').appendChild(signedIn);
 }
 
-function getPostsFromDatabase() {
-  makeXhrRequest('', 'GET', '/get-posts', 'text/json', createPostsOnDashboard)
+function getPostsFromDatabase(e) {
+  e.preventDefault();
+  globalArray = [];
+  const searchTerm = document.getElementById('searchbox').value;
+  document.getElementById('searchbox').value = null;
+  makeXhrRequest('', 'GET', `/get-posts=${searchTerm}`, 'text/json', createPostsOnDashboard)
 }
 
 function makeQueryString(date,text,hashtags) {
