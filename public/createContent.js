@@ -18,7 +18,8 @@ function createPostDiv(date, text) {
   post.className = "post";
   appendContentToDiv(post, date);
   appendContentToDiv(post, text);
-  document.getElementById('post-container').appendChild(post);
+  var el = document.getElementById('post-container');
+  el.insertBefore(post, el.firstChild);
 }
 
 function appendContentToDiv(node, content) {
