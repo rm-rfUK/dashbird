@@ -10,11 +10,6 @@ textarea, .post {
   font-size: 1em;
 }
 
-.entry-container {
-  margin: auto auto;
-  text-align: center;
-}
-
 button {
   border: none;
   padding: 0.5em 1em;
@@ -22,21 +17,57 @@ button {
   cursor: pointer;
 }
 
-#submit-button {
-  margin-left: 23em;
-  margin-top: 1em;
+#header {
+  display: flex;
+  justify-content: space-between;
 }
 
-#search-button {
-  margin-left: 0.5em;
-  margin-top: 0.4em;
-  height: 2.2em;
+#main {
+  position: relative;
+  top: -10em;
+}
+
+img {
+  height: 10em;
+}
+
+.img {
+  margin: auto auto;
+  text-align: center;
+}
+
+.sign-in {
+  margin-left: 2em;
+
 }
 
 .search-container {
-  display: flex;
-  justify-content: flex-end;
   margin-right: 2em;
+}
+
+#username, #email, #password {
+  padding: 1em;
+  background-color: #f2f1f0;
+  border: none;
+  box-sizing: border-box;
+  margin: 0.5em 0;
+  font-size: 0.8em;
+}
+
+#search-button {
+  height: 2.2em;
+  float: right;
+  margin-right: 0.2em;
+}
+
+.entry-container {
+  margin: auto auto;
+  text-align: center;
+}
+
+#submit-button {
+  margin-left: 23em;
+  margin-top: 1em;
 }
 
 h2, h1, #post-container {
@@ -52,15 +83,6 @@ h2, h1, #post-container {
   margin: auto auto;
 }
 
-img {
-  width: 10em;
-}
-
-#img {
-  text-align: center;
-  margin: 0 auto -1em auto;
-}
-
 .hidden {
-  display: none;
+  visibility: hidden;
 }
