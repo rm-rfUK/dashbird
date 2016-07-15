@@ -6,10 +6,8 @@ const getPost = require('./getPost.js');
 
 function handler(request, response) {
   var endpoint = request.url;
-
   if (endpoint === '/') {
     var pathToIndex = __dirname + '/../public/index.html';
-
     fs.readFile(pathToIndex, function (error, file) {
       if (error) {
         throw error;
@@ -20,11 +18,9 @@ function handler(request, response) {
     });
   } else if (endpoint === '/add-user-record') {
     var data = '';
-
     request.on('data', function (chunk) {
       data += chunk;
     });
-
     request.on('end', function () {
       var newRecord = querystring.parse(data);
       createUserRecord(newRecord, sendUserSuccessResponse);
@@ -39,11 +35,9 @@ function handler(request, response) {
 
   } else if (endpoint === '/add-post') {
     var data = '';
-
     request.on('data', function (chunk) {
       data += chunk;
     });
-
     request.on('end', function () {
       var newPost = querystring.parse(data);
       makePost(newPost, sendPostSuccessResponse);
@@ -56,27 +50,19 @@ function handler(request, response) {
       }
   });
 
-  } else if (endpoint === '/get-posts') {
-      var fakePosts = [{
-        date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-        text: 'I hope we can get our app working by #Friday',
-        hashTags: '#Friday'
-      },{
-        date: 'Wed Jul 13 2016 08:55:03 GMT 0100 (BST)',
-        text: 'Do a coding bootcamp they said. It will be easy they said...',
-        hashTags: ''
-      }];
-      var posts = getPost.getPostByHashtag(hashtag, callback);
+  } else if (endpoint.indexOf('/get-posts') !== -1) {
+    var searchTerm = endpoint.split('=')[1];
+    getPost.getPostBySearchTerm(searchTerm, sendSearchSuccessResponse);
+    function sendSearchSuccessResponse(posts) {
       response.writeHead(200, { 'Content-Type': 'text/json' });
-      // response.write(JSON.stringify(posts));
-      response.write(JSON.stringify(fakeposts));
+      response.write(JSON.stringify(posts));
       response.end();
+    }
 
   } else {
     var pathToFile = __dirname + '/../public' + endpoint;
     var fileExtensionArray = endpoint.split('.');
     var fileExtension = fileExtensionArray[1];
-
     fs.readFile(pathToFile, function (error, file) {
       if (error) {
         throw error;
