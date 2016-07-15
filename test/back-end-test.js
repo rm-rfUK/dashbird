@@ -43,8 +43,10 @@ tape('Test post function', t => {
 });
 
 tape('if new user gets created', t => {
+  const randomUserName = String(Math.random());
+
   const fakeUser = {
-    userName: 'alex',
+    userName: randomUserName,
     email: 'a@g.com',
     password: 'isanidiot'
   }
@@ -58,6 +60,25 @@ tape('if new user gets created', t => {
 
 })
 
+tape('checking if the same user name can be added twice', t => {
+  const randomUserName = String(Math.random());
+
+  const fakeUser = {
+    userName: randomUserName,
+    email: 'a@g.com',
+    password: 'isanidiot'
+  }
+
+  const errorMessage = `Key (username)=(${randomUserName}) already exists.`;
+  createUserRecord(fakeUser, function(){});
+  createUserRecord(fakeUser, checkDuplicates);
+
+  function checkDuplicates(reply) {
+    t.equals(reply.detail, errorMessage, 'no duplicates in the username column');
+    t.end();
+  }
+
+})
 
 // tape('Test get function', t => {
 //   let postIds = [];

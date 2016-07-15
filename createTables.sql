@@ -5,7 +5,7 @@ DROP TABLE posts;
 
 CREATE TABLE users
 (
-username varchar(24),
+username varchar(24) unique,
 email varchar(50),
 password varchar(24),
 PRIMARY KEY (username)
