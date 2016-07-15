@@ -25,9 +25,13 @@ function handler(request, response) {
       var newRecord = querystring.parse(data);
       createUserRecord(newRecord, sendUserSuccessResponse);
       function sendUserSuccessResponse(reply) {
-        if (reply) {
+        if (reply.name != 'error') {
           response.writeHead(200, { 'Content-Type': 'text/json' });
           response.write(JSON.stringify(reply));
+          response.end();
+        } else if (reply.name === 'error'){
+          response.writeHead(406, { 'Content-Type': 'text/plain' });
+          response.write('Username already exists');
           response.end();
         }
       }
