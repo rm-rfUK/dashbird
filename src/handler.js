@@ -2,6 +2,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 const makePost = require('./makePost.js');
 const createUserRecord = require('./createUserRecord.js')
+const getPost = require('./getPost.js');
 
 function handler(request, response) {
   var endpoint = request.url;
@@ -55,15 +56,7 @@ function handler(request, response) {
       }
   });
 
-
-
   } else if (endpoint === '/get-posts') {
-    // var pathToJSON = __dirname + '/posts.json';
-    //
-    // fs.readFile(pathToJSON, function (error, blogposts) {
-    //   if (error) {
-    //     throw error;
-    //   }
       var fakePosts = [{
         date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
         text: 'I hope we can get our app working by #Friday',
@@ -73,10 +66,12 @@ function handler(request, response) {
         text: 'Do a coding bootcamp they said. It will be easy they said...',
         hashTags: ''
       }];
+      var posts = getPost.getPostByHashtag(hashtag, callback);
       response.writeHead(200, { 'Content-Type': 'text/json' });
-      response.write(JSON.stringify(fakePosts));
+      // response.write(JSON.stringify(posts));
+      response.write(JSON.stringify(fakeposts));
       response.end();
-    // });
+
   } else {
     var pathToFile = __dirname + '/../public' + endpoint;
     var fileExtensionArray = endpoint.split('.');
