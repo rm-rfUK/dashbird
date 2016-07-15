@@ -6,38 +6,48 @@
     <link rel="stylesheet" href="style.css" type="text/css">
   </head>
   <body>
-    <form class="search-container">
-        <textarea id="searchbox" placeholder="Search dashbird" rows="1" cols="30"></textarea>
-        <button id="search-button" type="submit">Search</button>
-    </form>
-    <div id="img">
-      <img src="img/bird.jpg" alt="">
+
+    <div id="header">
+
+      <div class="sign-in">
+        <form>
+          <input type="text" name="username" placeholder="Username" id="username"><br>
+          <input type="text" name="email" placeholder="Email" id="email"><br>
+          <input type="text" name="password" placeholder="Password" id="password"><br>
+          <button id="sign-in-button" type="submit">Sign In</button>
+        </form>
+      </div>
+
+      <form class="search-container">
+          <textarea id="searchbox" placeholder="Search dashbird" rows="1" cols="30"></textarea>
+          <br>
+          <button id="search-button" type="submit">Search</button>
+      </form>
+
     </div>
-    <div class="heading">
+
+    <div class="img">
+      <img src="img/bird.jpg" alt="">
       <h1>dashbird</h1>
     </div>
 
-    <div class="sign-in">
-      <form>
-        Username<br><input type="text" name="username" value="Please enter your name" id="username"><br>
-        Email<br><input type="text" name="email" value="Your email" id="email"><br>
-        Password<br><input type="text" name="password" value="Not your REAL one!" id="password"><br>
+    <div id="main">
 
-        <button id="sign-in-button" type="submit"></button>
-      </form>
+      <div class="entry-container">
+          <form>
+              <textarea id="blogpost" placeholder="What's up?" rows="4" cols="50"></textarea>
+              <br>
+              <button id="submit-button" type="submit">Send</button>
+          </form>
+      </div>
+
+      <h2>Latest Posts</h2>
+
+      <div id="post-container"></div>
+
     </div>
 
-    <div class="entry-container">
-        <form>
-            <textarea id="blogpost" placeholder="What's up?" rows="4" cols="50"></textarea>
-            <br>
-            <button id="submit-button" type="submit">Send</button>
-        </form>
-    </div>
 
-    <h2>Latest Posts</h2>
-
-    <div id="post-container"></div>
     <script src="makeXhrRequest.js" charset="utf-8"></script>
     <script src="request.js" charset="utf-8"></script>
     <script src="createContent.js" charset="utf-8"></script>
