@@ -24,16 +24,19 @@ button {
 
 #main {
   position: relative;
-  top: -10em;
+  top: -12em;
 }
 
 img {
-  height: 10em;
+  width: 10em;
 }
 
 .img {
   margin: auto auto;
   text-align: center;
+  width: 10em;
+  top: -12em;
+  position: relative;
 }
 
 .sign-in {
@@ -45,14 +48,14 @@ img {
   margin-right: 2em;
 }
 
-/*#username, #email, #password {
+#username, #email, #password {
   padding: 1em;
   background-color: #f2f1f0;
   border: none;
   box-sizing: border-box;
   margin: 0.5em 0;
   font-size: 0.8em;
-}*/
+}
 
 #search-button {
   height: 2.2em;
@@ -67,7 +70,6 @@ img {
 
 #submit-button {
   margin-left: 23em;
-  margin-top: 1em;
 }
 
 h2, h1, #post-container {
