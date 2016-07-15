@@ -30,7 +30,7 @@ function handler(request, response) {
           response.write(JSON.stringify(reply));
           response.end();
         } else if (reply.name === 'error'){
-          response.writeHead(406, { 'Content-Type': 'text/plain' });
+          response.writeHead(400, { 'Content-Type': 'text/plain' });
           response.write('Username already exists');
           response.end();
         }
