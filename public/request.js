@@ -34,6 +34,7 @@ function hideSignIn(username) {
 
 function getPostsFromDatabase(e) {
   e.preventDefault();
+  globalArray = [];
   const searchTerm = document.getElementById('searchbox').value;
   document.getElementById('searchbox').value = null;
   makeXhrRequest('', 'GET', `/get-posts=${searchTerm}`, 'text/json', createPostsOnDashboard)
