@@ -3,6 +3,8 @@ const shot = require('shot');
 const handler = require('../src/handler.js');
 const makePost = require('../src/makePost.js');
 const getPost = require('../src/getPost.js');
+const createUserRecord = require('../src/createUserRecord.js');
+
 
 tape('tests for / endpoint', t => {
   shot.inject(handler, { method: 'get', url: '/' }, (res) => {
@@ -39,6 +41,44 @@ tape('Test post function', t => {
     });
   }
 });
+
+tape('if new user gets created', t => {
+  const randomUserName = String(Math.random());
+
+  const fakeUser = {
+    userName: randomUserName,
+    email: 'a@g.com',
+    password: 'isanidiot'
+  }
+
+  createUserRecord(fakeUser, testUserName);
+
+  function testUserName(userName) {
+    t.equal(userName, fakeUser.userName, 'usernames match');
+    t.end();
+  }
+
+})
+
+tape('checking if the same user name can be added twice', t => {
+  const randomUserName = String(Math.random());
+
+  const fakeUser = {
+    userName: randomUserName,
+    email: 'a@g.com',
+    password: 'isanidiot'
+  }
+
+  const errorMessage = `Key (username)=(${randomUserName}) already exists.`;
+  createUserRecord(fakeUser, function(){});
+  createUserRecord(fakeUser, checkDuplicates);
+
+  function checkDuplicates(reply) {
+    t.equals(reply.detail, errorMessage, 'no duplicates in the username column');
+    t.end();
+  }
+
+})
 
 // tape('Test get function', t => {
 //   let postIds = [];

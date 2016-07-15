@@ -14,10 +14,13 @@ function createUserRecord(newRecord, callback) {
   client.query("INSERT INTO users(username, email, password) values ($1, $2, $3) RETURNING username",
     [userName, email, password],
       function(err, result) {
-        if (err) console.log(err);
-        console.log(result.rows[0].username);
-        callback(result.rows[0].username);
-        client.end();
+        if (err) {
+          console.log(err);
+          callback(err);
+        } else {
+          callback(result.rows[0].username);
+        }
+      client.end();
       });
 }
 
