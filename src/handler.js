@@ -47,7 +47,7 @@ function handler(request, response) {
       function makePostResponse(err, reply) {
         if (err) {
           response.writeHead(400, { 'Content-Type': 'text/plain' });
-          response.write(err);
+          response.write(err.detail);
           response.end();
         } else {
           response.writeHead(200, { 'Content-Type': 'text/json' });
