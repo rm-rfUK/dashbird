@@ -2,7 +2,7 @@ const tape = require('tape');
 const shot = require('shot');
 const handler = require('../src/handler.js');
 const makePost = require('../src/makePost.js');
-const getPost = require('../src/getPost.js');
+const getPosts = require('../src/getPosts.js');
 const createUserRecord = require('../src/createUserRecord.js');
 
 
@@ -26,9 +26,9 @@ tape('Test post function', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (postid) {
+  function setPostIdToTest (err, postid) {
     postIdToTest = postid;
-    getPost.getPosts('postid', postIdToTest, function(err, posts){
+    getPosts('postid', postIdToTest, function(err, posts){
       t.deepEqual(posts[0],
         { date: new Date('Wed Jul 13 2016'),
           hashtags: '#Friday',
@@ -53,9 +53,9 @@ tape('Test get function works with text', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (postid) {
+  function setPostIdToTest (err, postid) {
     postIdToTest = postid;
-    getPost.getPosts('text', randomTextString, function(err, posts){
+    getPosts('text', randomTextString, function(err, posts){
       t.equal(posts[0].text, randomTextString, 'getPosts should return a post with the correct text');
       t.equal(posts.length, 1, 'If text is unique, getPosts should return only one post');
       t.equal(posts[0].postid, postIdToTest, 'The post returned should be the correct one');
@@ -75,9 +75,9 @@ tape('Test get function works with hashtags', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (postid) {
+  function setPostIdToTest (err, postid) {
     postIdToTest = postid;
-    getPost.getPosts('hashtags', randomTextString, function(err, posts){
+    getPosts('hashtags', randomTextString, function(err, posts){
       t.equal(posts[0].hashtags, randomTextString, 'getPosts should return a post with the correct hashtag');
       t.equal(posts.length, 1, 'If hashtag is unique, getPosts should return only one post');
       t.equal(posts[0].postid, postIdToTest, 'The post returned should be the correct one');

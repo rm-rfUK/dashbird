@@ -2,7 +2,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 const createUserRecord = require('./createUserRecord.js');
 const makePost = require('./makePost.js');
-const getPost = require('./getPost.js');
+const getPosts = require('./getPosts.js');
 
 function handler(request, response) {
   var endpoint = request.url;
@@ -59,7 +59,7 @@ function handler(request, response) {
   } else if (endpoint.indexOf('/get-posts') !== -1) {
     let searchTerm = endpoint.split('=')[1];
     let category = searchTerm[0] === '#' ? 'hashtags' : 'text';
-    getPost.getPosts(category, searchTerm, getPostResponse);
+    getPosts(category, searchTerm, getPostResponse);
     function getPostResponse(err, posts) {
       if (err) {
         response.writeHead(400, { 'Content-Type': 'text/plain' });
