@@ -53,7 +53,7 @@ tape('if new user gets created', t => {
 
   createUserRecord(fakeUser, testUserName);
 
-  function testUserName(userName) {
+  function testUserName(err, userName) {
     t.equal(userName, fakeUser.userName, 'usernames match');
     t.end();
   }
@@ -73,8 +73,8 @@ tape('checking if the same user name can be added twice', t => {
   createUserRecord(fakeUser, function(){});
   createUserRecord(fakeUser, checkDuplicates);
 
-  function checkDuplicates(reply) {
-    t.equals(reply.detail, errorMessage, 'no duplicates in the username column');
+  function checkDuplicates(err, userName) {
+    t.equals(err.detail, errorMessage, 'no duplicates in the username column');
     t.end();
   }
 

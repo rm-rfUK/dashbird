@@ -23,15 +23,15 @@ function handler(request, response) {
     });
     request.on('end', function () {
       var newRecord = querystring.parse(data);
-      createUserRecord(newRecord, sendUserSuccessResponse);
-      function sendUserSuccessResponse(reply) {
-        if (reply.name != 'error') {
+      createUserRecord(newRecord, createUserResponse);
+      function createUserResponse(err, reply) {
+        if (err) {
+          response.writeHead(400, { 'Content-Type': 'text/plain' });
+          response.write(err.detail);
+          response.end();
+        } else {
           response.writeHead(200, { 'Content-Type': 'text/json' });
           response.write(JSON.stringify(reply));
-          response.end();
-        } else if (reply.name === 'error'){
-          response.writeHead(400, { 'Content-Type': 'text/plain' });
-          response.write('Username already exists');
           response.end();
         }
       }

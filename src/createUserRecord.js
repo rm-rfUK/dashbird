@@ -18,7 +18,7 @@ function createUserRecord(newRecord, callback) {
           console.log(err);
           callback(err);
         } else {
-          callback(result.rows[0].username);
+          callback(err, result.rows[0].username);
         }
       client.end();
       });
