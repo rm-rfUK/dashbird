@@ -64,22 +64,22 @@ tape('Test get function works with text', t => {
   }
 });
 
-tape('Test get function works with text', t => {
+tape('Test get function works with hashtags', t => {
   let randomTextString = String(Math.random());
 
   let fakePost = {
     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-    text: randomTextString,
-    hashtags: '#Friday'
+    text: 'I hope we can get our app working by #Friday',
+    hashtags: '#'+randomTextString
   }
 
   makePost(fakePost, setPostIdToTest);
 
   function setPostIdToTest (postid) {
     postIdToTest = postid;
-    getPost.getPosts('text', randomTextString, function(err, posts){
-      t.equal(posts[0].text, randomTextString, 'getPosts should return a post with the correct text');
-      t.equal(posts.length, 1, 'If text is unique, getPosts should return only one post');
+    getPost.getPosts('hashtags', randomTextString, function(err, posts){
+      t.equal(posts[0].hashtags, '#' + randomTextString, 'getPosts should return a post with the correct hashtag');
+      t.equal(posts.length, 1, 'If hashtag is unique, getPosts should return only one post');
       t.equal(posts[0].postid, postIdToTest, 'The post returned should be the correct one');
       t.end();
     });
