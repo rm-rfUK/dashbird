@@ -3,7 +3,6 @@ const querystring = require('querystring');
 const createUserRecord = require('./createUserRecord.js');
 const makePost = require('./makePost.js');
 const getPosts = require('./getPosts.js');
-const responder = require('./responder.js');
 
 function handler(request, response) {
   let endpoint = request.url;
@@ -47,6 +46,18 @@ function handler(request, response) {
       response.write(file);
       response.end();
     });
+  }
+  function responder(err, reply) {
+    if (err) {
+      let error = err.detail || err;
+      response.writeHead(400, { 'Content-Type': 'text/plain' });
+      response.write(error);
+      response.end();
+    } else {
+      response.writeHead(200, { 'Content-Type': 'text/json' });
+      response.write(JSON.stringify(reply));
+      response.end();
+    }
   }
 }
 
