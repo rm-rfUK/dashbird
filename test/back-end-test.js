@@ -26,8 +26,8 @@ tape('Test post function', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (err, postid) {
-    postIdToTest = postid;
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
     getPosts('postid', postIdToTest, function(err, posts){
       t.deepEqual(posts[0],
         { date: new Date('Wed Jul 13 2016'),
@@ -53,8 +53,8 @@ tape('Test get function works with text', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (err, postid) {
-    postIdToTest = postid;
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
     getPosts('text', randomTextString, function(err, posts){
       t.equal(posts[0].text, randomTextString, 'getPosts should return a post with the correct text');
       t.equal(posts.length, 1, 'If text is unique, getPosts should return only one post');
@@ -75,8 +75,8 @@ tape('Test get function works with hashtags', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (err, postid) {
-    postIdToTest = postid;
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
     getPosts('hashtags', randomTextString, function(err, posts){
       t.equal(posts[0].hashtags, randomTextString, 'getPosts should return a post with the correct hashtag');
       t.equal(posts.length, 1, 'If hashtag is unique, getPosts should return only one post');
