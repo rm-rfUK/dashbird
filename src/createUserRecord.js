@@ -9,12 +9,12 @@ function createUserRecord(newRecord, callback) {
     [userName, email, password],
       function(err, result) {
         if (err) {
-          console.log(err);
           callback(err);
+          client.end();
         } else {
           callback(err, result.rows[0].username);
+          client.end();
         }
-      client.end();
       });
 }
 

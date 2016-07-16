@@ -34,18 +34,17 @@ function getPostBySearchTerm(searchTerm, callback) {
 
 function getPosts(category, searchTerm, callback) {
   let client = pgClient();
-  let querystring = '';
-  let queryTerms = [];
-  if (category === 'postid') {
-    querystring = `SELECT * FROM posts WHERE ${category} = $1`;
-    queryTerms = [searchTerm];
-  } else {
-    querystring = `SELECT * FROM posts WHERE ${category} LIKE $1`;
-    queryTerms = ['%' + searchTerm + '%'];
-  }
+  let querystring = `SELECT * FROM posts WHERE ${category} `;
+  querystring += (category === 'postid') ? '= $1' : 'LIKE $1';
+  let queryTerms = (category === 'postid') ? [searchTerm] : ['%' + searchTerm + '%'];
   client.query(querystring, queryTerms, function(err, result) {
-    callback(err, result);
-    client.end();
+    if (err) {
+      callback(err);
+      client.end();
+    } else {
+      callback(err, result.rows);
+      client.end();
+    }
   });
 }
 

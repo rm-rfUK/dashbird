@@ -10,9 +10,12 @@ function makePost(post, callback) {
   client.query("INSERT INTO posts(date, time, text, hashtags, username) values($1, $2, $3, $4, $5) RETURNING postid",
     [date, time, text, hashtags, username],
       function(err, result) {
-        if (err) console.log(err);
-        callback(result.rows[0].postid);
-        console.log('post inserted with postid: ' + result.rows[0].postid);
+        if (err) {
+          callback(err);
+        } else {
+          callback(result.rows[0].postid);
+          console.log('post inserted with postid: ' + result.rows[0].postid);
+        }
         client.end();
       });
 }
