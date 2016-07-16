@@ -1,13 +1,7 @@
-var pg = require('pg');
-pg.defaults.ssl = true;
-require('env2')('config.env');
-var connectionString = process.env.DATABASE_URL;
+const pgClient = require('./pgClient.js')
 
 function createUserRecord(newRecord, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
+  var client = pgClient();
   var userName = newRecord.userName;
   var email = newRecord.email;
   var password = newRecord.password;

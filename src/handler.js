@@ -56,11 +56,17 @@ function handler(request, response) {
 
   } else if (endpoint.indexOf('/get-posts') !== -1) {
     var searchTerm = endpoint.split('=')[1];
-    getPost.getPostBySearchTerm(searchTerm, sendSearchSuccessResponse);
-    function sendSearchSuccessResponse(posts) {
-      response.writeHead(200, { 'Content-Type': 'text/json' });
-      response.write(JSON.stringify(posts));
-      response.end();
+    getPost.getPostBySearchTerm(searchTerm, getPostResponse);
+    function getPostResponse(err, posts) {
+      if (err) {
+        response.writeHead(400, { 'Content-Type': 'text/plain' });
+        response.write(err.detail);
+        response.end();
+      } else {
+        response.writeHead(200, { 'Content-Type': 'text/json' });
+        response.write(JSON.stringify(posts));
+        response.end();
+      }
     }
 
   } else {

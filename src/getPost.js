@@ -1,13 +1,7 @@
-var pg = require('pg');
-pg.defaults.ssl = true;
-require('env2')('config.env');
-var connectionString = process.env.DATABASE_URL;
+const pgClient = require('./pgClient.js')
 
 function getPostById(id, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
+  var client = pgClient();
   client.query("SELECT * FROM posts WHERE postid=$1",
     [id],
       function(err, result) {
@@ -18,10 +12,7 @@ function getPostById(id, callback) {
 }
 
 function getPostByHashtag(hashtag, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
+  var client = pgClient();
   client.query("SELECT * FROM posts WHERE hashtags LIKE $1 ORDER BY posts.date DESC",
     ['%' + hashtag + '%'],
       function(err, result) {
@@ -32,18 +23,21 @@ function getPostByHashtag(hashtag, callback) {
 }
 
 function getPostBySearchTerm(searchTerm, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
+  var client = pgClient();
   client.query("SELECT * FROM posts WHERE username LIKE $1 OR text LIKE $1 OR hashtags LIKE $1 ORDER BY posts.date DESC",
     ['%' + searchTerm + '%'],
       function(err, result) {
-        if (err) console.log(err);
-        callback(result.rows);
+        callback(err, result.rows);
         client.end();
       });
 }
+
+// function getPosts(searchTerm, category, callback) {
+//   var client = new pg.Client(connectionString);
+//   client.connect((err) => {
+//     if (err) throw err;
+//   });
+// }
 
 module.exports = {
     getPostById : getPostById,

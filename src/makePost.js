@@ -1,13 +1,7 @@
-var pg = require('pg');
-pg.defaults.ssl = true;
-require('env2')('config.env');
-var connectionString = process.env.DATABASE_URL;
+const pgClient = require('./pgClient.js')
 
 function makePost(post, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
+  var client = pgClient();
   var date = post.date.slice(0, -18);
   var time = post.date.slice(16, 25);
   var text = post.text;
