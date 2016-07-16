@@ -1,7 +1,7 @@
 const fs = require('fs');
 const querystring = require('querystring');
+const createUserRecord = require('./createUserRecord.js');
 const makePost = require('./makePost.js');
-const createUserRecord = require('./createUserRecord.js')
 const getPost = require('./getPost.js');
 
 function handler(request, response) {
@@ -36,7 +36,6 @@ function handler(request, response) {
         }
       }
     });
-
   } else if (endpoint === '/add-post') {
     var data = '';
     request.on('data', function (chunk) {
@@ -44,19 +43,23 @@ function handler(request, response) {
     });
     request.on('end', function () {
       var newPost = querystring.parse(data);
-      makePost(newPost, sendPostSuccessResponse);
-      function sendPostSuccessResponse(reply) {
-        if (reply) {
+      makePost(newPost, makePostResponse);
+      function makePostResponse(err, reply) {
+        if (err) {
+          response.writeHead(400, { 'Content-Type': 'text/plain' });
+          response.write(err);
+          response.end();
+        } else {
           response.writeHead(200, { 'Content-Type': 'text/json' });
           response.write(JSON.stringify(newPost));
           response.end();
         }
       }
-  });
-
+    });
   } else if (endpoint.indexOf('/get-posts') !== -1) {
-    var searchTerm = endpoint.split('=')[1];
-    getPost.getPostBySearchTerm(searchTerm, getPostResponse);
+    let searchTerm = endpoint.split('=')[1];
+    let category = searchTerm[0] === '#' ? 'hashtags' : 'text';
+    getPost.getPosts(category, searchTerm, getPostResponse);
     function getPostResponse(err, posts) {
       if (err) {
         response.writeHead(400, { 'Content-Type': 'text/plain' });
@@ -68,7 +71,6 @@ function handler(request, response) {
         response.end();
       }
     }
-
   } else {
     var pathToFile = __dirname + '/../public' + endpoint;
     var fileExtensionArray = endpoint.split('.');

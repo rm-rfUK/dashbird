@@ -13,7 +13,7 @@ function makePost(post, callback) {
         if (err) {
           callback(err);
         } else {
-          callback(result.rows[0].postid);
+          callback(err, result.rows[0].postid);
           console.log('post inserted with postid: ' + result.rows[0].postid);
         }
         client.end();
