@@ -28,7 +28,7 @@ tape('Test post function', t => {
 
   function setPostIdToTest (postid) {
     postIdToTest = postid;
-    getPost.getPostById(postIdToTest, function(post){
+    getPost.getPosts('postid', postIdToTest, function(err, post){
       t.deepEqual(post,
         { date: new Date('Wed Jul 13 2016'),
           hashtags: '#Friday',
@@ -42,85 +42,40 @@ tape('Test post function', t => {
   }
 });
 
-tape('if new user gets created', t => {
-  const randomUserName = String(Math.random());
-
-  const fakeUser = {
-    userName: randomUserName,
-    email: 'a@g.com',
-    password: 'isanidiot'
-  }
-
-  createUserRecord(fakeUser, testUserName);
-
-  function testUserName(err, userName) {
-    t.equal(userName, fakeUser.userName, 'usernames match');
-    t.end();
-  }
-
-})
-
-tape('checking if the same user name can be added twice', t => {
-  const randomUserName = String(Math.random());
-
-  const fakeUser = {
-    userName: randomUserName,
-    email: 'a@g.com',
-    password: 'isanidiot'
-  }
-
-  const errorMessage = `Key (username)=(${randomUserName}) already exists.`;
-  createUserRecord(fakeUser, function(){});
-  createUserRecord(fakeUser, checkDuplicates);
-
-  function checkDuplicates(err, userName) {
-    t.equals(err.detail, errorMessage, 'no duplicates in the username column');
-    t.end();
-  }
-
-})
-
-// tape('Test get function', t => {
-//   let postIds = [];
+// tape('if new user gets created', t => {
+//   const randomUserName = String(Math.random());
 //
-//   const fakePostArray = [{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   }]
-//
-//   fakePostArray.forEach(function(post){
-//     makePost(post, setPostIdsToRetrieve);
-//   });
-//
-//   function setPostIdToTest (postid) {
-//     postIdToTest = postid;
-//     getPostById(postIdToTest, function(post){
-//       t.deepEqual(post,
-//         { date: new Date('Wed Jul 13 2016'),
-//           hashtags: '#Friday',
-//           postid: postIdToTest,
-//           text: 'I hope we can get our app working by #Friday',
-//           time: '08:54:44',
-//           username: null },
-//       'makePost should send a post to the database');
-//       t.end();
-//     });
+//   const fakeUser = {
+//     userName: randomUserName,
+//     email: 'a@g.com',
+//     password: 'isanidiot'
 //   }
-// });
+//
+//   createUserRecord(fakeUser, testUserName);
+//
+//   function testUserName(err, userName) {
+//     t.equal(userName, fakeUser.userName, 'usernames match');
+//     t.end();
+//   }
+//
+// })
+//
+// tape('checking if the same user name can be added twice', t => {
+//   const randomUserName = String(Math.random());
+//
+//   const fakeUser = {
+//     userName: randomUserName,
+//     email: 'a@g.com',
+//     password: 'isanidiot'
+//   }
+//
+//   const errorMessage = `Key (username)=(${randomUserName}) already exists.`;
+//   createUserRecord(fakeUser, function(){});
+//   createUserRecord(fakeUser, checkDuplicates);
+//
+//   function checkDuplicates(err, userName) {
+//     t.equals(err.detail, errorMessage, 'no duplicates in the username column');
+//     t.end();
+//   }
+//
+// })

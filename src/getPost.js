@@ -1,7 +1,7 @@
 const pgClient = require('./pgClient.js')
 
 function getPostById(id, callback) {
-  var client = pgClient();
+  let client = pgClient();
   client.query("SELECT * FROM posts WHERE postid=$1",
     [id],
       function(err, result) {
@@ -12,7 +12,7 @@ function getPostById(id, callback) {
 }
 
 function getPostByHashtag(hashtag, callback) {
-  var client = pgClient();
+  let client = pgClient();
   client.query("SELECT * FROM posts WHERE hashtags LIKE $1 ORDER BY posts.date DESC",
     ['%' + hashtag + '%'],
       function(err, result) {
@@ -23,7 +23,7 @@ function getPostByHashtag(hashtag, callback) {
 }
 
 function getPostBySearchTerm(searchTerm, callback) {
-  var client = pgClient();
+  let client = pgClient();
   client.query("SELECT * FROM posts WHERE username LIKE $1 OR text LIKE $1 OR hashtags LIKE $1 ORDER BY posts.date DESC",
     ['%' + searchTerm + '%'],
       function(err, result) {
@@ -32,14 +32,25 @@ function getPostBySearchTerm(searchTerm, callback) {
       });
 }
 
-// function getPosts(searchTerm, category, callback) {
-//   var client = new pg.Client(connectionString);
-//   client.connect((err) => {
-//     if (err) throw err;
-//   });
-// }
+function getPosts(category, searchTerm, callback) {
+  let client = pgClient();
+  let querystring = '';
+  let queryTerms = [];
+  if (category === 'postid') {
+    querystring = `SELECT * FROM posts WHERE ${category} = $1`;
+    queryTerms = [searchTerm];
+  } else {
+    querystring = `SELECT * FROM posts WHERE ${category} LIKE $1`;
+    queryTerms = ['%' + searchTerm + '%'];
+  }
+  client.query(querystring, queryTerms, function(err, result) {
+    callback(err, result);
+    client.end();
+  });
+}
 
 module.exports = {
+    getPosts : getPosts,
     getPostById : getPostById,
     getPostByHashtag : getPostByHashtag,
     getPostBySearchTerm : getPostBySearchTerm
