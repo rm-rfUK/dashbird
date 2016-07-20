@@ -1,24 +1,20 @@
-var pg = require('pg');
-pg.defaults.ssl = true;
-require('env2')('config.env');
-var connectionString = process.env.DATABASE_URL;
+const pgClient = require('./pgClient.js')
 
 function makePost(post, callback) {
-  var client = new pg.Client(connectionString);
-  client.connect((err) => {
-    if (err) throw err;
-  });
-  var date = post.date.slice(0, -18);
-  var time = post.date.slice(16, 25);
-  var text = post.text;
-  var hashtags = post.hashtags;
-  var username = post.username;
-  client.query("INSERT INTO posts(date, time, text, hashtags, username) values($1, $2, $3, $4, $5) RETURNING postid",
+  let client = pgClient();
+  let date = post.date.slice(0, -18);
+  let time = post.date.slice(16, 25);
+  let text = post.text;
+  let hashtags = post.hashtags;
+  let username = post.username;
+  client.query("INSERT INTO posts(date, time, text, hashtags, username) values($1, $2, $3, $4, $5) RETURNING postid, date, time, text, hashtags, username",
     [date, time, text, hashtags, username],
       function(err, result) {
-        if (err) console.log(err);
-        callback(result.rows[0].postid);
-        console.log('post inserted with postid: ' + result.rows[0].postid);
+        if (err) {
+          callback(err);
+        } else {
+          callback(err, result.rows[0]);
+        }
         client.end();
       });
 }

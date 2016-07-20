@@ -2,7 +2,7 @@ const tape = require('tape');
 const shot = require('shot');
 const handler = require('../src/handler.js');
 const makePost = require('../src/makePost.js');
-const getPost = require('../src/getPost.js');
+const getPosts = require('../src/getPosts.js');
 const createUserRecord = require('../src/createUserRecord.js');
 
 
@@ -18,7 +18,7 @@ tape('tests for / endpoint', t => {
 tape('Test post function', t => {
   let postIdToTest = null;
 
-  const fakePost = {
+  let fakePost = {
     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
     text: 'I hope we can get our app working by #Friday',
     hashtags: '#Friday'
@@ -26,10 +26,10 @@ tape('Test post function', t => {
 
   makePost(fakePost, setPostIdToTest);
 
-  function setPostIdToTest (postid) {
-    postIdToTest = postid;
-    getPost.getPostById(postIdToTest, function(post){
-      t.deepEqual(post,
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
+    getPosts('postid', postIdToTest, function(err, posts){
+      t.deepEqual(posts[0],
         { date: new Date('Wed Jul 13 2016'),
           hashtags: '#Friday',
           postid: postIdToTest,
@@ -42,6 +42,51 @@ tape('Test post function', t => {
   }
 });
 
+tape('Test get function works with text', t => {
+  let randomTextString = String(Math.random());
+
+  let fakePost = {
+    date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
+    text: randomTextString,
+    hashtags: '#Friday'
+  }
+
+  makePost(fakePost, setPostIdToTest);
+
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
+    getPosts('text', randomTextString, function(err, posts){
+      t.equal(posts[0].text, randomTextString, 'getPosts should return a post with the correct text');
+      t.equal(posts.length, 1, 'If text is unique, getPosts should return only one post');
+      t.equal(posts[0].postid, postIdToTest, 'The post returned should be the correct one');
+      t.end();
+    });
+  }
+});
+
+tape('Test get function works with hashtags', t => {
+  let randomTextString = '#' + String(Math.random());
+
+  let fakePost = {
+    date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
+    text: 'I hope we can get our app working by #Friday',
+    hashtags: randomTextString
+  }
+
+  makePost(fakePost, setPostIdToTest);
+
+  function setPostIdToTest (err, post) {
+    postIdToTest = post.postid;
+    getPosts('hashtags', randomTextString, function(err, posts){
+      t.equal(posts[0].hashtags, randomTextString, 'getPosts should return a post with the correct hashtag');
+      t.equal(posts.length, 1, 'If hashtag is unique, getPosts should return only one post');
+      t.equal(posts[0].postid, postIdToTest, 'The post returned should be the correct one');
+      t.end();
+    });
+  }
+});
+
+
 tape('if new user gets created', t => {
   const randomUserName = String(Math.random());
 
@@ -53,7 +98,7 @@ tape('if new user gets created', t => {
 
   createUserRecord(fakeUser, testUserName);
 
-  function testUserName(userName) {
+  function testUserName(err, userName) {
     t.equal(userName, fakeUser.userName, 'usernames match');
     t.end();
   }
@@ -73,54 +118,9 @@ tape('checking if the same user name can be added twice', t => {
   createUserRecord(fakeUser, function(){});
   createUserRecord(fakeUser, checkDuplicates);
 
-  function checkDuplicates(reply) {
-    t.equals(reply.detail, errorMessage, 'no duplicates in the username column');
+  function checkDuplicates(err, userName) {
+    t.equals(err.detail, errorMessage, 'no duplicates in the username column');
     t.end();
   }
 
 })
-
-// tape('Test get function', t => {
-//   let postIds = [];
-//
-//   const fakePostArray = [{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   },{
-//     date: 'Wed Jul 13 2016 08:54:44 GMT 0100 (BST)',
-//     text: 'I hope we can get our app working by #Friday',
-//     hashtags: '#Friday'
-//   }]
-//
-//   fakePostArray.forEach(function(post){
-//     makePost(post, setPostIdsToRetrieve);
-//   });
-//
-//   function setPostIdToTest (postid) {
-//     postIdToTest = postid;
-//     getPostById(postIdToTest, function(post){
-//       t.deepEqual(post,
-//         { date: new Date('Wed Jul 13 2016'),
-//           hashtags: '#Friday',
-//           postid: postIdToTest,
-//           text: 'I hope we can get our app working by #Friday',
-//           time: '08:54:44',
-//           username: null },
-//       'makePost should send a post to the database');
-//       t.end();
-//     });
-//   }
-// });
